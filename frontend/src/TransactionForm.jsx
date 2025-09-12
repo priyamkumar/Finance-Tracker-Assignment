@@ -24,7 +24,7 @@ export default function TransactionForm({ initialData }) {
         );
         toast.success("Transaction updated successfully.");
       } catch (err) {
-        toast.success(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     } else {
       try {
@@ -34,7 +34,7 @@ export default function TransactionForm({ initialData }) {
         );
         toast.success("Transaction recorded successfully.");
       } catch (err) {
-        toast.success(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     }
     navigate("/");

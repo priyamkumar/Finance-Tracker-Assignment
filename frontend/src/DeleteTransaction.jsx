@@ -1,6 +1,7 @@
 import axios from "axios";
 import { server } from "./main";
 import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function DeleteTransaction() {
   const { id } = useParams();
@@ -10,9 +11,9 @@ export default function DeleteTransaction() {
       const { data } = await axios.delete(
         `${server}/api/transaction/${id}`
       );
-      console.log(data);
+      toast.success("Record deleted successfully.");
     } catch (err) {
-      console.log(err);
+      toast.success(err.response.data.message);
     }
   };
 

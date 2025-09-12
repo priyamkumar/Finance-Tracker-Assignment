@@ -3,13 +3,12 @@ const Transaction = require("../models/transactionModel");
 
 const getAllTransactions = asyncHandler(async (req, res) => {
   try {
-    const transactions = await Transaction.find().sort({ createdAt: -1 });
+    const transactions = await Transaction.find().sort({ date: -1 });
     res.status(200).json({
       success: true,
       transactions,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Server Error",
@@ -31,7 +30,6 @@ const singleTransaction = asyncHandler(async (req, res) => {
       transaction,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Server Error",

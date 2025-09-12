@@ -4,19 +4,17 @@ import { server } from "./main";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-export default function EditTransaction({ transactions, onEdit }) {
+export default function EditTransaction() {
   const { id } = useParams();
   const [initialData, setInitialData] = useState(null);
   const fetchData = async () => {
     try {
       const { data } = await axios.get(`${server}/api/transaction/${id}`);
-      console.log(data);
       setInitialData(data.transaction);
     } catch (err) {
       console.log(err);
     }
   };
-  console.log(initialData);
 
   useEffect(() => {
     fetchData(id);
@@ -24,10 +22,5 @@ export default function EditTransaction({ transactions, onEdit }) {
 
   if (!initialData) return null;
 
-  return (
-    <TransactionForm
-      initialData={initialData}
-      onSubmit={(initialData) => onEdit(id, initialData)}
-    />
-  );
+  return <TransactionForm initialData={initialData} />;
 }

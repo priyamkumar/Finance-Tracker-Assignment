@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   res.send("WORKING");
 });
 
-app.use("/api/transaction", require("./routes/transactions"));
+app.use("/api/transaction", require("./routes/transactionRoutes"));
 
 app.use(errorHandler);
 

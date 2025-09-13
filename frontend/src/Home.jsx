@@ -2,16 +2,21 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { server } from "./main";
+import Loader from "./Loader";
 
 export default function TransactionsApp() {
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchTransactions = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(`${server}/api/transaction/`);
+      setLoading(false);
       setTransactions(data.transactions);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -23,7 +28,12 @@ export default function TransactionsApp() {
   useEffect(() => {
     fetchTransactions();
   }, []);
-  return (
+  return loading ? (
+    <div className="min-h-screen flex items-center justify-center">
+
+    <Loader />
+    </div>
+  ) : (
     <div className="max-w-2xl mx-auto mt-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Transactions</h1>

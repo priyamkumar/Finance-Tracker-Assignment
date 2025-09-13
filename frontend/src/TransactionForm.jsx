@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { server } from "./main";
 import toast from "react-hot-toast";
 import { ArrowLeft } from "lucide-react";
+import Loader from "./Loader";
 
 export default function TransactionForm({ initialData }) {
   const [form, setForm] = useState(
     initialData || { title: "", amount: "", date: "", category: "" }
   );
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,14 +18,17 @@ export default function TransactionForm({ initialData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (initialData) {
       try {
         const { data } = await axios.put(
           `${server}/api/transaction/${initialData._id}`,
           form
         );
+        setLoading(false);
         toast.success("Transaction updated successfully.");
       } catch (err) {
+        setLoading(false);
         toast.error(err.response.data.message);
       }
     } else {
@@ -32,15 +37,21 @@ export default function TransactionForm({ initialData }) {
           `${server}/api/transaction/create`,
           form
         );
+        setLoading(false);
         toast.success("Transaction recorded successfully.");
       } catch (err) {
+        setLoading(false);
         toast.error(err.response.data.message);
       }
     }
     navigate("/");
   };
 
-  return (
+  return loading ? (
+    <div className="min-h-screen flex items-center justify-center">
+      <Loader />
+    </div>
+  ) : (
     <div className="max-w-md mx-auto my-50 bg-white p-6 rounded-2xl shadow-md">
       <div className="flex gap-5 items-center mb-5">
         <ArrowLeft

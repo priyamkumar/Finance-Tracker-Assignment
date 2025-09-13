@@ -6,11 +6,11 @@ import Loader from "./Loader";
 
 export default function TransactionsApp() {
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchTransactions = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const { data } = await axios.get(`${server}/api/transaction/`);
       setLoading(false);
       setTransactions(data.transactions);
